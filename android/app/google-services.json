@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "346626511020",
+    "project_id": "qualife-f5936",
+    "storage_bucket": "qualife-f5936.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346626511020:android:d7de9d4b7fef326ded8f09",
+        "android_client_info": {
+          "package_name": "com.example.qualife_mobileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT9lECxAB2YN-_1w8yHEe3qurG5f_miAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
