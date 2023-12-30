@@ -2,12 +2,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:qualife_mobileapp/constant/header.dart';
 import 'package:qualife_mobileapp/screens/home.dart';
 import 'package:qualife_mobileapp/screens/login.dart';
-import 'package:qualife_mobileapp/services/provider/auth_services.dart';
+import 'package:qualife_mobileapp/services/provider/authServices.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -36,8 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
       debugShowCheckedModeBanner: false,
@@ -47,31 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               children: [
                 // **Header**
-                Container(
-                  width: deviceWidth,
-                  height: deviceHeight / 8,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                    ),
-                  ),
-                  child: const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 25),
-                        child: Text(
-                          'QuaLife',
-                          style: TextStyle(color: Colors.black, fontSize: 28),
-                        ),
-                      ),
-                      Text(
-                        "Kaliteli Yaşam Destekçiniz",
-                        style: TextStyle(fontSize: 18),
-                      )
-                    ],
-                  ),
-                ),
+                const Header(),
                 // **Body**
                 Padding(
                   padding: const EdgeInsets.only(top: 100),
@@ -326,8 +300,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
     } else {
-      Fluttertoast.showToast(
-          msg: "Kayıt başarısız", toastLength: Toast.LENGTH_LONG);
       // ignore: avoid_print
       print("Kayıt başarısız");
     }

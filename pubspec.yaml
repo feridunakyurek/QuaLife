@@ -39,7 +39,6 @@ dependencies:
   cloud_firestore: ^4.13.6
   firebase_auth: ^4.15.3
   hexcolor: ^3.0.1
-  fluttertoast: ^8.2.4
   graphic: ^2.2.1
 
 dev_dependencies:

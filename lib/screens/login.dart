@@ -2,12 +2,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:qualife_mobileapp/constant/header.dart';
 import 'package:qualife_mobileapp/screens/home.dart';
 import 'package:qualife_mobileapp/screens/signUp.dart';
-import 'package:qualife_mobileapp/services/provider/auth_services.dart';
+import 'package:qualife_mobileapp/services/provider/authServices.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -33,9 +33,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-
     return MaterialApp(
       theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
       debugShowCheckedModeBanner: false,
@@ -44,32 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                // **Header**
-                Container(
-                  width: deviceWidth,
-                  height: deviceHeight / 8,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
-                    ),
-                  ),
-                  child: const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 25),
-                        child: Text(
-                          'QuaLife',
-                          style: TextStyle(color: Colors.black, fontSize: 28),
-                        ),
-                      ),
-                      Text(
-                        "Kaliteli Yaşam Destekçiniz",
-                        style: TextStyle(fontSize: 18),
-                      )
-                    ],
-                  ),
-                ),
+                const Header(),
                 // **Body**
                 Padding(
                   padding: const EdgeInsets.only(top: 100),
@@ -233,11 +205,10 @@ class _LoginPageState extends State<LoginPage> {
                             child: const Text(
                               'Sifreni mi Unuttun?',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                                decoration: TextDecoration.underline
-                              ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.underline),
                             ),
                           ),
                         ),
@@ -298,8 +269,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      Fluttertoast.showToast(
-          msg: "Giris başarısız", toastLength: Toast.LENGTH_LONG);
       print("Giris başarısız");
     }
   }
