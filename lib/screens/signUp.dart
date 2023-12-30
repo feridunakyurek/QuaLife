@@ -1,11 +1,13 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable, use_build_context_synchronously, prefer_final_fields
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:qualife_mobileapp/screens/home.dart';
 import 'package:qualife_mobileapp/screens/login.dart';
 import 'package:qualife_mobileapp/services/provider/auth_services.dart';
-
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -16,11 +18,21 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool isRegisterButtonClicked = false;
-  final _nameController = TextEditingController();
-  final _surnameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+
+  final AuthService _auth = AuthService();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _surnameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 20),
                         Stack(
                           children: [
                             TextField(
@@ -254,47 +267,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        Stack(
-                          children: [
-                            TextField(
-                              controller: _confirmPasswordController,
-                              obscureText: true,
-                              keyboardType: TextInputType.visiblePassword,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: HexColor("#FFFFFF"),
-                                labelText: 'Şifre Tekrar',
-                                labelStyle: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 1.0,
-                                color: Colors.black, // Çizgi rengi
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-
                         /* Navigation Button */
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
                             onPressed: () {
-                              AuthService().signUp(
-                                  context,
-                                  name: _nameController.text,
-                                  surname: _surnameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  confirmPassword:
-                                      _confirmPasswordController.text);
+                              _signUp();
                             },
                             /* Button style */
                             style: ButtonStyle(
@@ -327,5 +305,31 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    String name = _nameController.text;
+    String surname = _surnameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user =
+        await _auth.signUpWithEmailAndPassword(name, surname, email, password);
+
+    if (user != null) {
+      // ignore: avoid_print
+      print("Kayıt başarılı");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(
+          msg: "Kayıt başarısız", toastLength: Toast.LENGTH_LONG);
+      // ignore: avoid_print
+      print("Kayıt başarısız");
+    }
   }
 }
