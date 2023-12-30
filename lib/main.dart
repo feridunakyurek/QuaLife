@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:qualife_mobileapp/firebase_options.dart';
 import 'package:qualife_mobileapp/screens/login.dart';
 
-void main() async{
+void main() async {
   //Uygulamanin baslamisini bekle. Sonra firebase'i baslat.
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

@@ -1,28 +1,31 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:qualife_mobileapp/screens/signUp.dart';
+import 'package:qualife_mobileapp/screens/login.dart';
 import 'package:qualife_mobileapp/services/provider/auth_services.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool isRegisterButtonClicked = false;
+  final _nameController = TextEditingController();
+  final _surnameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-
     return MaterialApp(
       theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
       debugShowCheckedModeBanner: false,
@@ -68,6 +71,32 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0.0,
+                                backgroundColor: HexColor(
+                                    "#FFFFFF"), // Butonun arka plan rengi
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: const Text(
+                                "GİRİŞ YAP",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                             InkWell(
                               onTap: () {
                                 setState(() {
@@ -103,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                                     // Diğer özelleştirmeleri ekleyebilirsiniz
                                   ),
                                   child: const Text(
-                                    "GİRİŞ YAP",
+                                    "KAYIT OL",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -113,39 +142,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  isRegisterButtonClicked = true;
-                                });
-                                // Kayıt ol sayfasına yönlendirme yapabilirsiniz
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RegisterPage(),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0.0,
-                                // Gölgeyi kaldırmak için elevation'ı 0.0 olarak ayarlayın
-                                backgroundColor: HexColor("#FFFFFF"),
-                                // Butonun arka plan rengi
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: Text(
-                                "KAYIT OL",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: isRegisterButtonClicked
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                            )
                           ],
                         ),
                         /* Input1 */
@@ -155,10 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                             child: Stack(
                               children: [
                                 TextField(
+                                  controller: _nameController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: HexColor("#FFFFFF"),
-                                    labelText: 'E-Mail',
+                                    labelText: 'Ad',
                                     labelStyle: const TextStyle(
                                       fontSize: 20,
                                     ),
@@ -170,12 +167,61 @@ class _LoginPageState extends State<LoginPage> {
                                   right: 0,
                                   child: Container(
                                     height: 1.0,
-                                    color: Colors.black, // Çizgi rengi
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                        ),
+                        Stack(
+                          children: [
+                            TextField(
+                              controller: _surnameController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: HexColor("#FFFFFF"),
+                                labelText: 'Soyad',
+                                labelStyle: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 1.0,
+                                color: Colors.black, // Çizgi rengi
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Stack(
+                          children: [
+                            TextField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: HexColor("#FFFFFF"),
+                                labelText: 'E-Mail',
+                                labelStyle: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 1.0,
+                                color: Colors.black, // Çizgi rengi
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 20),
 
@@ -184,6 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                         Stack(
                           children: [
                             TextField(
+                              controller: _passwordController,
                               obscureText: true,
                               keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
@@ -207,34 +254,66 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-
-                        /* Navigation Button */
-                        ElevatedButton(
-                          onPressed: () {
-                            AuthService().signIn(
-                              context,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            );
-                          },
-                          /* Button style */
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                HexColor("#f2f2f2")),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
+                        Stack(
+                          children: [
+                            TextField(
+                              controller: _confirmPasswordController,
+                              obscureText: true,
+                              keyboardType: TextInputType.visiblePassword,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: HexColor("#FFFFFF"),
+                                labelText: 'Şifre Tekrar',
+                                labelStyle: const TextStyle(
+                                  fontSize: 20,
                                 ),
                               ),
                             ),
-                            // Diğer özelleştirmeleri ekleyebilirsiniz
-                          ),
-                          child: const Text(
-                            'GİRİŞ YAP',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 1.0,
+                                color: Colors.black, // Çizgi rengi
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+
+                        /* Navigation Button */
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              AuthService().signUp(
+                                  context,
+                                  name: _nameController.text,
+                                  surname: _surnameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  confirmPassword:
+                                      _confirmPasswordController.text);
+                            },
+                            /* Button style */
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  HexColor("#f2f2f2")),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            child: const Text(
+                              'KAYIT OL',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
