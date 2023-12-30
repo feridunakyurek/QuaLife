@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qualife_mobileapp/services/provider/auth_services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,11 +17,19 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return MaterialApp(
-      theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
+      theme: ThemeData(fontFamily: GoogleFonts
+          .roboto()
+          .fontFamily),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
@@ -86,11 +94,11 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                    MaterialStateProperty.all<Color>(
                                       HexColor("#FFFFFF"),
                                     ),
                                     shape:
-                                        MaterialStateProperty.all<OutlinedBorder>(
+                                    MaterialStateProperty.all<OutlinedBorder>(
                                       const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(8.0),
@@ -125,9 +133,11 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation:
-                                    0.0, // Gölgeyi kaldırmak için elevation'ı 0.0 olarak ayarlayın
+                                0.0,
+                                // Gölgeyi kaldırmak için elevation'ı 0.0 olarak ayarlayın
                                 backgroundColor: HexColor(
-                                    "#FFFFFF"), // Butonun arka plan rengi
+                                    "#FFFFFF"),
+                                // Butonun arka plan rengi
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -175,9 +185,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-            
+
                         /* Input2 */
-            
+
                         Stack(
                           children: [
                             TextField(
@@ -204,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-            
+
                         /* Navigation Button */
                         ElevatedButton(
                           onPressed: () {},
@@ -251,39 +261,27 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool isRegisterButtonClicked = false;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _surnameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-
-   Future<void> _register() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-
-      // Kullanıcı başarıyla kaydedildi, burada istediğiniz ek işlemleri yapabilirsiniz.
-      print('User registered: ${userCredential.user!.uid}');
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return MaterialApp(
-      theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
+      theme: ThemeData(fontFamily: GoogleFonts
+          .roboto()
+          .fontFamily),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
@@ -374,11 +372,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onPressed: null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                    MaterialStateProperty.all<Color>(
                                       HexColor("#FFFFFF"),
                                     ),
                                     shape:
-                                        MaterialStateProperty.all<OutlinedBorder>(
+                                    MaterialStateProperty.all<OutlinedBorder>(
                                       const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(8.0),
@@ -423,7 +421,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   right: 0,
                                   child: Container(
                                     height: 1.0,
-                                    color: Colors.black, // Çizgi rengi
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],
@@ -480,9 +478,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-            
+
                         /* Input2 */
-            
+
                         Stack(
                           children: [
                             TextField(
@@ -537,12 +535,19 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-            
+
                         /* Navigation Button */
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            onPressed: _register,
+                            onPressed: () {
+                                  AuthService().register(
+                                      name: _nameController.text,
+                                      surname: _surnameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      confirmPassword: _confirmPasswordController.text);
+                            },
                             /* Button style */
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
@@ -554,7 +559,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 ),
                               ),
-                              // Diğer özelleştirmeleri ekleyebilirsiniz
                             ),
                             child: const Text(
                               'KAYIT OL',
