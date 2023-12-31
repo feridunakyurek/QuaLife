@@ -8,19 +8,26 @@ class AuthService {
 
   Future<User?> signUpWithEmailAndPassword(
       String name, String surname, String email, String password) async {
-    await userCollection.doc().set({
-      "name": name,
-      "surname": surname,
-      "email": email,
-    });
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      // Kullanıcının UID'sini al
+      String uid = credential.user!.uid;
+
+      // Firestore'da "users" koleksiyonuna belge ekleyin
+      await userCollection.doc(uid).set({
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "uid": uid,
+      });
+
       return credential.user;
     } catch (e) {
-      print("Some error occured");
+      print("Some error occured: $e");
+      return null;
     }
-    return null;
   }
 
   Future<User?> signInWithEmailAndPassword(
@@ -30,11 +37,10 @@ class AuthService {
           email: email, password: password);
       return credential.user;
     } catch (e) {
-      print("Some error occured");
+      print("Some error occured: $e");
+      return null;
     }
-    return null;
   }
-
   // Future<void> signUp(BuildContext context,
   //     {required String name,
   //     required String surname,
