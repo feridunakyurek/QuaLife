@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: prefer_final_fields, unused_field
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qualife_mobileapp/constant/header.dart';
-import 'package:qualife_mobileapp/screens/login.dart';
+import 'package:sensors/sensors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +12,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _stepCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      if (event.y > 11.0) {
+        setState(() {
+          _stepCount++;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,38 +45,23 @@ class _HomePageState extends State<HomePage> {
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                   ),
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: 260,
                     height: 40,
                     child: Center(
                       child: Text(
-                        'Günlük Adım: ',
-                        style: TextStyle(
-                          fontSize: 16,
+                        'Günlük Adım: $_stepCount',
+                        style: const TextStyle(
+                          fontSize: 24,
                         ),
                       ),
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
-                  },
-                  /* Button style */
-                  child: const Text(
-                    'Cikis yap',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
+                const Text(
+                  "Hedeflerim",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                )
               ],
             ),
           ),

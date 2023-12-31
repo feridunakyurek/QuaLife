@@ -251,7 +251,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             /* Button style */
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  HexColor("#f2f2f2")),
+                                HexColor("#f2f2f2"),
+                              ),
                               shape: MaterialStateProperty.all<OutlinedBorder>(
                                 const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
