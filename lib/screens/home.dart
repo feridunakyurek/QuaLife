@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_field, sized_box_for_whitespace
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:qualife_mobileapp/constant/header.dart';
 import 'package:qualife_mobileapp/screens/addTarget.dart';
 import 'package:qualife_mobileapp/services/firebaseServices.dart';
@@ -77,37 +78,173 @@ class _HomePageState extends State<HomePage> {
                       List<Map<String, dynamic>> targets = snapshot.data ?? [];
 
                       return Column(
-                        children: targets
-                            .map(
-                              (target) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(
-                                  color: Colors.grey[200],
-                                  child: ListTile(
-                                    title: Text(
-                                      target['targetTitle'],
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
+                        children: targets.map((target) {
+                          bool isCompleted = target['status'] ?? false;
+
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              color: isCompleted
+                                  ? Colors.green[200]
+                                  : Colors.blue[200],
+                              child: ExpansionTile(
+                                title: Text(
+                                  target['targetTitle'],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    decoration: isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : null,
                                   ),
                                 ),
+                                subtitle: Text(
+                                  '${target['categories']}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                  ),
+                                ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Text(
+                                          'Başlangıç Tarihi: ${target['startDate']}',
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          'Bitiş Tarihi: ${target['endDate']}',
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              style: ButtonStyle(
+                                                minimumSize:
+                                                    MaterialStateProperty.all<
+                                                        Size>(
+                                                  const Size(100, 40),
+                                                ),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(
+                                                  HexColor("#ffffff"),
+                                                ),
+                                                shape: MaterialStateProperty
+                                                    .all<OutlinedBorder>(
+                                                  const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(8.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                'Güncelle',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 20),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                await _firebaseService
+                                                    .updateTargetStatus(
+                                                        target['targetId'],
+                                                        true);
+                                                setState(() {
+                                                  target['status'] = true;
+                                                });
+                                              },
+                                              style: ButtonStyle(
+                                                minimumSize:
+                                                    MaterialStateProperty.all<
+                                                        Size>(
+                                                  const Size(100, 40),
+                                                ),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(
+                                                  HexColor("#ffffff"),
+                                                ),
+                                                shape: MaterialStateProperty
+                                                    .all<OutlinedBorder>(
+                                                  const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(8.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                'Tamamlandı',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                            .toList(),
+                            ),
+                          );
+                        }).toList(),
                       );
                     }
                   },
                 ),
                 const SizedBox(height: 20),
+
+                //* Hedef ekle butonu
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    bool? success = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const addTarget(),
                       ),
                     );
+                    if (success == true) {
+                      setState(() {});
+                    } else {
+                      setState(() {});
+                    }
                   },
-                  child: const Text('Hedef Ekle'),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(HexColor("#f2f2f2")),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Hedef Ekle',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ],
             ),

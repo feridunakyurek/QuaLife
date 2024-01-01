@@ -15,19 +15,24 @@ class FirebaseService {
       if (user != null) {
         String uid = user.uid;
 
-        // Kullanıcının UID'sini kullanarak, "users" koleksiyonundaki belgesine ulaş
         DocumentReference userDocRef = usersCollection.doc(uid);
 
-        // Kullanıcının belgesinde "targets" adında bir koleksiyon kontrol et
         final targetsCollectionRef = userDocRef.collection('targets');
 
-        // Kullanıcının "targets" koleksiyonuna yeni bir belge ekleyin
-        await targetsCollectionRef.add({
+        // eklenen hedefe kendi id'sini vermek için
+        DocumentReference newTargetDocRef = targetsCollectionRef.doc();
+
+        await newTargetDocRef.set({
+          'targetId': newTargetDocRef.id,
           'targetTitle': targetTitle,
           'startDate': startDate,
           'endDate': endDate,
-          'category': category,
+          'categories': category,
+          'status': false,
         });
+
+        print(
+            'Target koleksiyonu başarıyla eklendi. Target ID: ${newTargetDocRef.id}');
       } else {
         print('Kullanıcı giriş yapmamış.');
       }
@@ -43,16 +48,12 @@ class FirebaseService {
       if (user != null) {
         String uid = user.uid;
 
-        // Kullanıcının UID'sini kullanarak, "users" koleksiyonundaki belgesine ulaş
         DocumentReference userDocRef = usersCollection.doc(uid);
 
-        // Kullanıcının belgesinde "targets" adında bir koleksiyon kontrol et
         final targetsCollectionRef = userDocRef.collection('targets');
 
-        // "targets" koleksiyonundaki verileri al
         QuerySnapshot targetsQuerySnapshot = await targetsCollectionRef.get();
 
-        // QuerySnapshot'tan verileri çıkart ve liste olarak döndür
         List<Map<String, dynamic>> targetsList = targetsQuerySnapshot.docs
             .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>)
             .toList();
@@ -64,6 +65,55 @@ class FirebaseService {
     } catch (error) {
       print('Hata oluştu: $error');
       return [];
+    }
+  }
+
+  Future<void> updateTargetStatus(String targetId, bool status) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        String uid = user.uid;
+
+        DocumentReference userDocRef = usersCollection.doc(uid);
+
+        final targetsCollectionRef = userDocRef.collection('targets');
+
+        await targetsCollectionRef.doc(targetId).update({'status': status});
+        print(
+            'Target durumu güncellendi. Target ID: $targetId, Status: $status');
+      } else {
+        print('Kullanıcı giriş yapmamış.');
+      }
+    } catch (error) {
+      print('Hata oluştu: $error');
+    }
+  }
+
+  Future<Map<String, dynamic>> getTargetDetails(String targetId) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        String uid = user.uid;
+
+        DocumentReference userDocRef = usersCollection.doc(uid);
+
+        final targetsCollectionRef = userDocRef.collection('targets');
+
+        DocumentSnapshot targetDocSnapshot =
+            await targetsCollectionRef.doc(targetId).get();
+
+        Map<String, dynamic>? targetDetails =
+            targetDocSnapshot.data() as Map<String, dynamic>?;
+
+        return targetDetails ?? {};
+      } else {
+        return {};
+      }
+    } catch (error) {
+      print('Hata oluştu: $error');
+      return {};
     }
   }
 }
