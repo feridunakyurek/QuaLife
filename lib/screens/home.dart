@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:qualife_mobileapp/constant/header.dart';
 import 'package:qualife_mobileapp/constant/pieChart.dart';
 import 'package:qualife_mobileapp/screens/addTarget.dart';
-import 'package:qualife_mobileapp/screens/signOutBtn.dart';
+import 'package:qualife_mobileapp/constant/signOutBtn.dart';
 import 'package:qualife_mobileapp/services/firebaseServices.dart';
 import 'package:sensors/sensors.dart';
 
