@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:qualife_mobileapp/constant/header.dart';
 import 'package:qualife_mobileapp/constant/pieChart.dart';
 import 'package:qualife_mobileapp/screens/addTarget.dart';
+import 'package:qualife_mobileapp/screens/signOutBtn.dart';
 import 'package:qualife_mobileapp/services/firebaseServices.dart';
 import 'package:sensors/sensors.dart';
 
@@ -218,67 +219,73 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 20),
 
                 //* Hedef ekle butonu
-                ElevatedButton(
-                  onPressed: () async {
-                    bool? success = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const addTarget(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        bool? success = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const addTarget(),
+                          ),
+                        );
+                        if (success == true) {
+                          setState(() {});
+                        } else {
+                          setState(() {});
+                        }
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            HexColor("#f2f2f2")),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                    if (success == true) {
-                      setState(() {});
-                    } else {
-                      setState(() {});
-                    }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(HexColor("#f2f2f2")),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
+                      child: const Text(
+                        'Hedef Ekle',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
                         ),
                       ),
                     ),
-                  ),
-                  child: const Text(
-                    'Hedef Ekle',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StatusChart(),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            HexColor("#f2f2f2")),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        'Istatistikler',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StatusChart(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(HexColor("#f2f2f2")),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    'Istatistikler',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                )
+                signOut(),
               ],
             ),
           ),
