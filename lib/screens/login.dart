@@ -205,10 +205,11 @@ class _LoginPageState extends State<LoginPage> {
                             child: const Text(
                               'Sifreni mi Unuttun?',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.underline),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ),
                         ),

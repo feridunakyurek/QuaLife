@@ -16,7 +16,7 @@ class _addTargetState extends State<addTarget> {
   final TextEditingController _targetTitleController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  String _selectedCategories = 'Sağlık'; // Default olarak 'Sağlık' seçili
+  String _selectedCategories = 'Sağlık';
   DateTime? _startDate;
   DateTime? _endDate;
 
