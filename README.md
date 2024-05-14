@@ -1,16 +1,13 @@
-# qualife_mobileapp
+#QuaLife Mobile Todo App
 
-A new Flutter project.
+This project has been developed as a term project within the scope of MBM401 - Mobile Programming course. Goals
 
-## Getting Started
+Used "single activity more fragment" architecture.
+Flutterfire CRUD tasks developed.
+Tasks were performed with asynchronous data.
+Graphical analysis was conducted using fl_chart.
+Access to device sensors was established, and step counting was implemented.
+An authentication system was implemented using Firebase Auth.
+Within the scope of SOLID software development principles, attention was paid to the use of interfaces and service objects.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Buy Me A Coffee
