@@ -2,7 +2,7 @@
 
 This project has been developed as a term project within the scope of MBM401 - Mobile Programming course. 
 
-### Goals
+## Goals
 
 - Used "single activity more fragment" architecture.
 - Flutterfire CRUD tasks developed.
